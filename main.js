@@ -125,7 +125,7 @@ function init() {
 
     // Load car model from GLB file
     const loader = new GLTFLoader();
-    loader.load('LowPolyCars-v2.glb', function(gltf) {
+    loader.load('/LowPolyCars-v2.glb', function(gltf) {
         car = gltf.scene;
         car.position.set(-2, 0.18, roadLength / 2 - 2); // Lift car slightly above the road
         car.scale.set(1, 1, 1); // Adjust scale if needed
