@@ -22,6 +22,17 @@ h1 {
     color: #fff;
     text-shadow: 1px 1px 4px #000;
 }
+#subtitle {
+  font-size: 0.95rem;
+  color: white;
+  position: absolute;
+  top: 3.8rem; /* Lowered from 3.2rem to avoid overlap */
+  left: 22px;
+  z-index: 1;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  text-shadow: 1px 1px 3px #000;
+}
 #left-arrow-btn, #right-arrow-btn {
   position: fixed;
   bottom: 5.5rem;

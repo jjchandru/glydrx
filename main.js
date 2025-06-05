@@ -15,18 +15,28 @@ let gameOverDiv; // Declare at top for global access
 
 function init() {
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x222233);
+    // Set a sky blue background color for the scene
+    scene.background = new THREE.Color(0x87ceeb); // Sky blue
 
     // Remove HDRI environment/background
     // (No RGBELoader or scene.environment/background assignment)
 
+    // Camera setup
+    // Detect mobile device (simple check)
+    const isMobile = window.innerWidth < 800;
+    const fov = isMobile ? 95 : 75; // Wider FOV for mobile
     camera = new THREE.PerspectiveCamera(
-        75,
+        fov,
         window.innerWidth / window.innerHeight,
         0.1,
         1000
     );
-    camera.position.set(0, 5, roadLength / 2 + 5); // Behind the starting point
+    // Use same height for both mobile and desktop, only adjust z for mobile
+    if (isMobile) {
+        camera.position.set(0, 5, roadLength / 2 + 7); // Same height, further back for mobile
+    } else {
+        camera.position.set(0, 5, roadLength / 2 + 5);
+    }
     camera.lookAt(0, 0, roadLength / 2);
 
     renderer = new THREE.WebGLRenderer();
@@ -97,7 +107,7 @@ function init() {
     scene.add(ambientLight);
 
     // Add ground
-    const groundGeometry = new THREE.PlaneGeometry(100, 100);
+    const groundGeometry = new THREE.PlaneGeometry(1000, 1000);
     const groundMaterial = new THREE.MeshPhongMaterial({ color: 0xe4d096 }); // Sand color
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
     ground.rotation.x = -Math.PI / 2;
@@ -244,8 +254,17 @@ function init() {
 }
 
 function onWindowResize() {
+    // Adjust FOV and camera position on resize for mobile/desktop
+    const isMobile = window.innerWidth < 800;
+    camera.fov = isMobile ? 95 : 75;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
+    // Use same height for both mobile and desktop, only adjust z for mobile
+    if (isMobile) {
+        camera.position.set(0, 5, roadLength / 2 + 7);
+    } else {
+        camera.position.set(0, 5, roadLength / 2 + 5);
+    }
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
